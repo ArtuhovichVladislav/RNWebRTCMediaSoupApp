@@ -6,12 +6,4 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-
-  contentContainer: {
-    width: '100%',
-    paddingHorizontal: 56,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 18,
-  },
 });
