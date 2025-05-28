@@ -7,11 +7,13 @@ export const styles = StyleSheet.create({
 
   input: {
     width: '100%',
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderRadius: 14,
+    borderColor: '#272757',
     paddingVertical: 12,
     paddingHorizontal: 16,
     fontSize: 16,
+    color: 'white',
   },
 
   errorBorder: {

@@ -1,11 +1,13 @@
 import React, { useCallback } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { RTCView } from 'react-native-webrtc';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Button } from '../../components/button';
 import { CallScreenComponent } from './types';
-import { useWebRTC } from './hooks';
+import { localPeerData, useWebRTC } from './hooks';
 import { styles } from './styles';
+import { Resources } from '../../resources';
+import { CardStyleInterpolators } from '@react-navigation/stack';
 
 export const CallScreen: CallScreenComponent = ({ navigation, route }) => {
   const { roomId } = route.params || {};
@@ -18,33 +20,64 @@ export const CallScreen: CallScreenComponent = ({ navigation, route }) => {
   }, [endCall, navigation]);
 
   return (
-    <View style={styles.container}>
-      {localStream && (
-        <RTCView
-          streamURL={localStream.toURL()}
-          style={{ width: 200, height: 150 }}
-        />
-      )}
-      {remotePeers.map(p => (
-        <View key={p.peerId}>
-          <RTCView
+    <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
+      <View style={styles.remoteStreamsContainer}>
+        {remotePeers.map(p => (
+          <View
             key={p.peerId}
-            streamURL={p.stream.toURL()}
-            style={{ width: 200, height: 150 }}
-          />
-          <Text>{peersData[p.peerId].displayName}</Text>
-        </View>
-      ))}
-
-      {!remotePeers.length && <Text>No one in the room</Text>}
-
-      <View style={{ position: 'absolute', bottom: 40 }}>
-        <Button title="END" onPress={handleEndCall} />
+            style={
+              remotePeers.length === 1
+                ? styles.remoteStreamContainerLarge
+                : styles.remoteStreamContainer
+            }>
+            <RTCView
+              key={p.peerId}
+              streamURL={p.stream.toURL()}
+              style={styles.remoteStream}
+              objectFit="cover"
+            />
+            <Text style={styles.peerName} numberOfLines={1}>
+              {peersData[p.peerId].displayName}
+            </Text>
+          </View>
+        ))}
       </View>
-    </View>
+
+      {!remotePeers.length && (
+        <View style={styles.noOneInRoomContainer}>
+          <Text
+            style={
+              styles.noOneInRoomText
+            }>{`Looks like, there is\nno one in the room :(\n\n Your room id: ${roomId}`}</Text>
+        </View>
+      )}
+
+      <View style={styles.bottomContainer}>
+        {localStream && (
+          <View style={styles.localStreamContainer}>
+            <RTCView
+              streamURL={localStream.toURL()}
+              style={styles.localStream}
+              objectFit="cover"
+            />
+            <Text style={styles.peerName} numberOfLines={1}>
+              {localPeerData.displayName}
+            </Text>
+          </View>
+        )}
+
+        <TouchableOpacity style={styles.endCallButton} onPress={handleEndCall}>
+          <Image
+            style={styles.phoneCallEnd}
+            source={Resources.images.phoneCallEnd()}
+          />
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 };
 
 CallScreen.navigationOptions = {
   headerShown: false,
+  cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
 };

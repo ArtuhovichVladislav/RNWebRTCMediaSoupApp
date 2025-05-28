@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { Text } from 'react-native';
 
 import { useLoginMutation } from '../../store/authApi';
 import { TextInput } from '../../components/text-input';
 import { Button } from '../../components/button';
+import { ScreenContainer } from '../../components/screen-container';
 import { LoginScreenComponent } from './types';
 import { styles } from './styles';
 import {
@@ -56,24 +57,23 @@ export const LoginScreen: LoginScreenComponent = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.contentContainer}>
-        <TextInput
-          placeholder={'Username'}
-          value={username}
-          onChangeText={onUsernameChange}
-          error={usernameError ? USERNAME_ERROR_TEXT : undefined}
-        />
-        <TextInput
-          placeholder={'Password'}
-          value={password}
-          onChangeText={onPasswordChange}
-          secureTextEntry
-          error={passwordError ? PASSWORD_ERROR_TEXT : undefined}
-        />
-        <Button title={'Sing In'} onPress={handleLogin} loading={isLoading} />
-      </View>
-    </View>
+    <ScreenContainer>
+      <Text style={styles.signInText}>Sign In</Text>
+      <TextInput
+        placeholder={'Username'}
+        value={username}
+        onChangeText={onUsernameChange}
+        error={usernameError ? USERNAME_ERROR_TEXT : undefined}
+      />
+      <TextInput
+        placeholder={'Password'}
+        value={password}
+        onChangeText={onPasswordChange}
+        secureTextEntry
+        error={passwordError ? PASSWORD_ERROR_TEXT : undefined}
+      />
+      <Button title={'Sign In'} onPress={handleLogin} loading={isLoading} />
+    </ScreenContainer>
   );
 };
 

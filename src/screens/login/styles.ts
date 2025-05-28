@@ -1,17 +1,10 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  contentContainer: {
-    width: '100%',
-    paddingHorizontal: 56,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 18,
+  signInText: {
+    textAlign: 'center',
+    fontSize: 38,
+    lineHeight: 42,
+    color: 'white',
   },
 });

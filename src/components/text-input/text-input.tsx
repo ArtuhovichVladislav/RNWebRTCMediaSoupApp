@@ -26,6 +26,7 @@ export const TextInput = ({
     <View style={[styles.inputContainer, containerStyle]}>
       <RNTextInput
         style={[styles.input, !!error && styles.errorBorder, style]}
+        placeholderTextColor={'white'}
         {...inputProps}
       />
       {!!error && <Text style={styles.errorText}>{error}</Text>}

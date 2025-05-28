@@ -27,6 +27,17 @@ type PeerData = {
   id: string;
 };
 
+export const localPeerData = {
+  displayName: 'WebRTCTest',
+  device: {
+    flag: 'react-native',
+    name: 'React Native',
+    version: '0.78.2',
+  },
+};
+
+const maxPeersCount = 4;
+
 export const useWebRTC = (roomId: string) => {
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
   const [remotePeers, setRemotePeers] = useState<RemotePeer[]>([]);
@@ -104,12 +115,7 @@ export const useWebRTC = (roomId: string) => {
 
     const joinRoom = async (protoo: protooClient.Peer, device: Device) => {
       const { peers } = await protoo.request('join', {
-        displayName: 'WebRTCTest',
-        device: {
-          flag: 'react-native',
-          name: 'React Native',
-          version: '0.78.2',
-        },
+        ...localPeerData,
         rtpCapabilities: device.rtpCapabilities,
       });
 
@@ -150,12 +156,12 @@ export const useWebRTC = (roomId: string) => {
                 ]);
                 return prev.map(p =>
                   p.peerId === peerId ? { ...p, stream: updated } : p,
-                );
+                ).slice(0, maxPeersCount);
               } else {
                 return [
                   ...prev,
                   { peerId, stream: new MediaStream([consumer.track]) },
-                ];
+                ].slice(0, maxPeersCount);
               }
             });
 

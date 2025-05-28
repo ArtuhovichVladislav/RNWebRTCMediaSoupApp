@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: 50,
     borderRadius: 25,
-    backgroundColor: 'black',
+    backgroundColor: '#272757',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -20,6 +20,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 18,
     fontWeight: 500,
+    textTransform: 'uppercase',
   },
 
   loader: {
